@@ -1,0 +1,148 @@
+
+Hello Everyone!
+
+Trainer: Sonal Mittal
+
+Agenda: Day 1 - 20 Feb 2024 - Version control with Git and GitHub 
+===============================
+
+> Introduction to Version Control 
+> Benefits of Version Control 
+> Types of Version Control Systems 
+> Git and its features
+> Git workflow and architecture
+> Execute git commands on Local Repository
+
+
+
+
+What is Version Control?
+================================
+Version: Making changes and tracking(who did the change and when )these changes on a file or set of files
+
+Control: How do we track the changes ? where do we track the changes ?
+> Use a tool that will automatically track every change your do to a file or set of files .
+> Version control tool will provide you a repository to contribute together 
+> Multiple team members to work together on same unit of information (same file)
+
+
+
+If we have NO Version Control :
+
+1. We will have to rework on the files that we have not saved or changes that were not saved earlier.
+2. We will not have a common folder/location where all the team members can contribute
+3. We will not have a tool or a process to share data between team members
+
+
+Benefits of Version Control:
+===================================
+
+> Track Changes 
+> Back Up of our files and code 
+> Collaboration
+> roll back to previous changes 
+> Complete snapshot of the project 
+
+Types of Version Control System:
+=============================================
+> Local Version Control  System:
+=================================
+RCS : revision control system 
+
+Disadvantage: Local to the developer, others cannot access the files 
+If machine crashes we will lose the actual files as well as the versioned files.
+
+> Central version control Systems:
+=====================================
+SVN, perforce, TFS , googledrive
+
+
+Disadvantage: 
+> if no internet, we cannot access the versioned files 
+> if central crashes.. all version are deleted.
+
+> Distributed Version Control System 
+=======================================
+Local + Central repository
+
+GIT:
+=========================================
+Git is an Open source tool 
+It is available for free 
+You can download it on windows mac or linux 
+It is always installed on the local machine of the developer
+It is Command line tool - provides simple commands to version control files in local machine
+Git also has a user interface - provided only for windows OS
+Git is also integrated with code editors
+Git is used to create local repository 
+Git is used to version control files and maintain them to local repo 
+
+=============================================
+
+Demo: 
+
+# sudo su -
+
+Step 1: Create a working directory 
+
+# mkdir myproject && cd myproject
+
+# touch index1.html index2.html
+
+Step 2: Create a local repository  - Initialized empty Git repository
+
+# git init 
+
+# ls -al 
+
+.git : name of local repository 
+do not change the name -> always it will be same.
+
+Step 3: Setup git configuration for git logging 
+
+# git config --global user.name sonal04
+
+# git config --global user.email admin@gmail.com
+
+These configuration get stored in the below file 
+
+# cat ~/.gitconfig
+
+[user]
+        email = admin@gmail.com
+        name = sonal04
+
+These configuration are done only 1 time .
+
+Step 4: check the status of working directory 
+
+# git status 
+
+Step 5: Add the files to staging area 
+
+# git add index1.html 
+
+# git status 
+
+Step 6: Commit the files into Local repo 
+
+# git commit -m "added file index1.html" 
+
+-m - give any message in double quotes
+
+Step 7: Git log command to give history of commits performed
+
+#  git log
+
+Step 8: 
+Create a file and add it to staging area .
+Can we bring it back to unstaged area(red) - yes you can 
+using restore command 
+
+# touch file.php
+
+# git add .
+
+# git status
+
+# git restore --staged file.php
