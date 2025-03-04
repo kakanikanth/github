@@ -1,0 +1,75 @@
+Jenkins --> 03 March 2025
+===========================
+
+Install Java 17 or 21
+
+# sudo su -
+ 
+# apt update -y
+# apt install openjdk-17-jdk -y
+
+Install Jenkins:
+
+# sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+
+# echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+# apt-get update
+# apt-get install Jenkins
+
+# systemctl start Jenkins
+
+# systemctl status Jenkins
+
+
+
+Access Jenkins rom your browser:
+================================
+
+Give public IP of VM :8080
+
+3.15.134.254:8080
+
+
+Demo 1: Create a Jenkins Freestyle job to run Linux commands 
+
+Demo2: Integrate Jenkins with GIT and Github
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
