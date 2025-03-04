@@ -35,6 +35,70 @@ Demo 1: Create a Jenkins Freestyle job to run Linux commands
 
 Demo2: Integrate Jenkins with GIT and Github
 
+Create a new job in jenkins
+Click on + sign to create new item/job/project
+Give a name to the job : CloneRepo
+Select freestyle project and click on OK button
+On the project click on Source code management
+Select git option
+Give git hub repo path
+https://github.com/Sonal0409/myproject05Aug
+
+Branch name as ===>  Master
+
+Save the job
+
+Click on Build now
+
+Repository will be cloned in jenkins workspace
+
+You can go to job → workspace folder to see the files
+
+
+
+GitHub hook trigger for GITScm polling
+=======================================
+> Select the above option
+
+Save the job and now go to git hub
+
+Always save the job and then only  go to git hub, perform these steps
+
+go to the repository setting
+select webhooks on left side
+delete if any exisitng webhook
+
+click on createwebhook on right side
+
+provide following information:
+
+Payload URL : jenkinsurl/github-webhook/ ===> http://3.140.252.165:8080/github-webhook/
+
+Content type : select application/json
+
+Secret: no need of any value
+
+Which events would you like to trigger this webhook?
+
+select first option -- Just the push event.
+
+Select Active
+click on add webhook.
+
+now make some changes in repo,
+go to jenkins--> you will see a new build has been created
+
+
+
+Trigger by POLL SCM
+================================
+Create a new Job-->Source code management--> Add git path
+
+https://github.com/Sonal0409/GITHUBJENKINSDEMO
+
+Build Triggers--> Poll SCM --> * * * * *
+
+Build will be generated each time there is a chnage in the repository only.
 
 
 
