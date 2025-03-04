@@ -1,0 +1,116 @@
+
+
+
+===========================
+Jenkins Day 2:
+=============================
+
+#  sudo su -
+
+# systemctl start Jenkins
+
+Go to AWS --> copy the new public ip of the server
+
+go to browser --> publicip:8080
+
+login with username = admin, password=admin
+
+You will observer Jenkins dashboard is very very slow--> the reason is Jenkins system settings is having old Jenkins URL - we have to be update it with current Jenkins url
+
+Go to Manage Jenkins -> go to system --> scroll down to Jenkins URL --> give the current jenkisn url --> and Save 
+
+Now Dashboard will be fast
+
+==========================================
+
+Demo1: Integrate Jenkins with Maven build tool
+
+
+Jenkins--> Manage Jenkins-->TOOLS
+
+
+scroll down to maven Installations => click on add maven
+
+Type name as ==>  mymaven and check the install automatically box.
+
+Save the changes
+
+
+==========================================
+Job Package Job
+***************************
+
+Go to jenkins--> new item--> Name= Package==> freestyle project
+==> source codemanagement==>select git==> give git repo name https://github.com/Sonal0409/DevOpsClassCodes
+ 
+build steps ==> invoke top level maven target==>mymaven
+
+ goal = clean install package
+
+==> save==> build now
+==> click on build number and see the console
+
+==> go to workspace ==> target/addressbook.war
+
+========================================
+
+Pipeline code:
+====================================
+
+pipeline{
+    
+    agent any  // here any = current available ec2 server where jenkins is installed
+    
+    tools{
+        maven 'mymaven'
+    
+    }
+    
+    stages{
+        
+        stage('Checkout Code')
+        {
+            steps{
+                git 'https://github.com/Sonal0409/DevOpsCodeDemo.git'
+            }
+        }
+        stage('Compile Code'){
+            steps{
+                echo "compiling the code...."
+                sh 'mvn compile'
+            }
+        }
+        stage('Test code'){
+            steps{
+                echo "testing the code using maven surefire"
+                sh 'mvn test'
+            }
+        }
+        
+        stage('BuildCode'){
+            steps{
+                echo "generating artifact..."
+                sh 'mvn package'
+            }
+        }
+        
+    }
+    
+    
+    
+}
+
+
+
+It is always important to maintain the pipeline code in Version control tool
+It is not a best practice to write the pipeline code in Jenkins server
+
+The pipeline code in VC tool is always written in a file called as Jenkinsfile
+
+This file has no extension. Preffered name of the file is Jenkinsfile.
+
+We will maintain this file in a GitHub repository
+Everyone who has access to the repository can now make changes to the pipeline code
+
+As a devops engg--> you will create a Jenkins job 
+--> that will connect to the repo and obtain the jenkisnfile --> run the pipeline code written inside it.
