@@ -1,0 +1,167 @@
+Install Tomcat Server on the lab
+===========================================
+
+Open the terminal on the lab
+
+# sudo su -
+
+# apt update
+
+# apt install tomcat9 tomcat9-admin -y
+
+
+Open the server.xml file and change the connector port of tomcat
+
+        vim /etc/tomcat9/server.xml
+
+Scroll down to the Connector port tag as shown below and change port number to 9090.
+
+ 
+
+
+
+
+Save the file
+
+
+Update user information for tomcat
+
+# vim /etc/tomcat9/tomcat-users.xml
+
+Scroll to the bottom of the file and just above the end tag </tomcat-users>
+
+  paste the below line
+
+<user username="tomcat" password="password" roles="admin-gui,manager-gui,manager-script"/>
+
+
+
+
+There should not be any space before the line
+
+
+
+
+
+Save the file (:wq!)
+
+Open this script
+
+# vim /usr/libexec/tomcat9/tomcat-locate-java.sh
+
+Update as below 
+
+Updating the script this way adding the version 21 is solving the issue :
+find_jdks() 
+{ 
+for java_version in 21 17 11 10 9 8 
+do
+
+Save the file.
+
+
+
+
+# systemctl restart tomcat9
+# systemctl status tomcat9
+
+
+Now go to jenkins dashboard
+
+Go to managejenkins→ plugins → Available plugins
+
+Search for deploy to container plugin
+
+Select it and click on install button
+
+
+Create a new freestyle Job→ 
+
+Add the github repo in SCM → https://github.com/Sonal0409/DevOpsCodeDemo.git 
+
+add build steps select Invoke top-level Maven targets  → 
+add  version as mymaven and Goal as package→
+
+ go to post build actions and select Deploy war/ear to a container
+
+
+
+
+
+
+Add the container as show above
+
+Now add credentials
+
+
+
+
+
+
+
+
+
+Click on add button for credentials to be added
+
+You will see the credential in the drop down
+
+
+
+
+
+
+
+
+Add the URL as : http://localhost:9090/
+
+Save and build the job
+
+Check the deployed application on browser:
+
+http://localhost:9090/addressbook/
+
+CICD Pipeline:
+=====================================
+
+Create a new job → select pipeline project → in pipeline give below code, 
+
+Note: In the below code for deployment, change the credentials id.. Give your credentials id-  like tomcatcredentials
+
+
+pipeline{
+    
+    agent any
+    
+    tools{
+        maven 'mymaven'
+    }
+    
+    stages{
+        stage('checkout code')
+        {
+            steps{
+                git  'https://github.com/Sonal0409/DevOpsCodeDemo.git'
+            }
+        }
+        
+        stage('Build and Deploy the Code')
+        {
+            steps{
+                sh 'mvn clean install package'
+            }
+            
+            post{
+
+                 success{
+                    deploy adapters: [tomcat9(credentialsId: 'tomcat1', path: '', url: 'http://localhost:9090/')], contextPath: null, war: '**/*.war'
+                }
+                
+            }
+        }
+        
+    }
+    }
+    
+
+Save it and run it
+=========================================================
