@@ -473,3 +473,29 @@ vim playbook1.yml
      - nano
      - tree
      - php
+
+
+Docker Playbook:
+========================
+
+
+- name: Creation of docker containers
+  hosts: webserver
+  become: true
+  become_user: root
+  tasks:
+  - name: Install multiple package
+    package: name={{item}} state=present
+    loop:
+     - git
+     - docker.io
+  - name: State docker service
+    service: name=docker state=started
+  - name: pull the image
+    command: docker pull nginx
+  - name: run the image
+    command: docker run -d -P nginx
+
+
+
+
