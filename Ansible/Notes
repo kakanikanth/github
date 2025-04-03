@@ -496,6 +496,29 @@ Docker Playbook:
   - name: run the image
     command: docker run -d -P nginx
 
+====================================
+Handlers:
+
+
+- name: handlers in Ansible
+  hosts: webserver
+  become: true
+  tasks:
+  - name: Notify task for starting the service
+    command: echo "Service started"
+    notify: start multiple services
+  - name: Copy a file
+    copy: src=index.html dest=/tmp/index.html
+    notify: Print copy status
+  handlers:
+  - name: Print copy status
+    debug: msg="File copied successfully"
+  - name: start multiple services
+    service: name={{item}} state=restarted
+    loop:
+     - apache2
+     - docker
+
 
 
 
