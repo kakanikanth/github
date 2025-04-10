@@ -161,3 +161,59 @@ Save the file
 
 After changes any configuration file we need to restart our prometheus
 sudo systemctl restart prometheus.service
+
+Step #3:Install Grafana on Ubuntu 22.04 LTS
+Download the Grafana GPG key with wget, then pipe the output to apt-key. This will add the key to your APT installation’s list of trusted keys, which will allow you to download and verify the GPG-signed Grafana package:
+
+sudo apt-get install -y apt-transport-https software-properties-common wget
+sudo mkdir -p /etc/apt/keyrings/
+wget -q -O - https://apt.grafana.com/gpg.key | gpg --dearmor | sudo tee /etc/apt/keyrings/grafana.gpg > /dev/null
+echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
+
+# Updates the list of available packages
+sudo apt-get update
+
+# Installs the latest OSS release:
+sudo apt-get install grafana
+
+Once Grafana is installed, use systemctl to start the Grafana server:
+sudo systemctl start grafana-server
+Next, verify that Grafana is running by checking the service’s status:
+sudo systemctl status grafana-server
+sudo systemctl enable grafana-server
+Lets Access in browser:
+<instance_ip>:3000
+Output:
+default username: admin
+default password: admin
+Click Add data source and select Prometheus
+For the URL, enter http://localhost:9090 and click Save and test. You can see Data source is working.
+Click on Save and Test.
+Let’s add Dashboard for a better view in Grafana
+Click On Dashboard → + symbol → Import Dashboard
+Click on Import Dashboard paste this code 1860 and click on load
+
+Step #4:Install Jenkins on Ubuntu 22.04 LTS
+Installation of Java:
+sudo apt update
+sudo apt install fontconfig openjdk-17-jre
+java -version
+Install Jenkins from official website
+Setup dashboard → install prometheus plugin -> restart Jenkins
+To create a static target, you need to add job_name with static_configs
+sudo vim /etc/prometheus/prometheus.yml
+
+Paste below code
+- job_name: 'jenkins'
+   metrics_path: '/prometheus'
+   static_configs:
+     - targets: ['<jenkins-ip>:8080']
+After changes in config file we need to restart prometheus
+sudo systemctl restart prometheus
+Check the targets section
+http://<ip>:9090/targets
+=============
+Let’s add Dashboard for a better view in Grafana
+Click On Dashboard → + symbol → Import Dashboard
+Use Id 9964 and click on load
+
